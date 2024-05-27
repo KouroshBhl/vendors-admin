@@ -18,6 +18,7 @@ import SubCategories from './features/categories/SubCategories';
 import SubSubCategories from './features/categories/SubSubCategories';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './features/allProducts/EditProduct';
+import UiHomePage from './pages/UiHomePage';
 
 const queryClient = new QueryClient();
 
@@ -48,6 +49,7 @@ function App() {
             <Route path='products/brands' element={<Brands />} />
             <Route path='products/new' element={<AddProduct />} />
             <Route path='uisettings' element={<UiSettings />} />
+            <Route path='uisettings/homepage' element={<UiHomePage />} />
             <Route path='users' element={<Users />} />
             <Route path='*' element={<PageNotFound />} />
           </Route>

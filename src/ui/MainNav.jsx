@@ -73,11 +73,27 @@ function MainNav() {
         </NavMenu.NavMainLink>
 
         <NavMenu.NavMainLink
-          linkTo='uisettings'
           icon={<HiOutlineCurrencyDollar />}
+          subMenu='uisettings'
+          linkTo='/uisettings'
         >
           UI Settings
         </NavMenu.NavMainLink>
+
+        <NavMenu.NavSubMenu
+          subMenu='uisettings'
+          icon={<HiOutlinePlus />}
+          linkTo='.'
+        >
+          General
+        </NavMenu.NavSubMenu>
+        <NavMenu.NavSubMenu
+          subMenu='uisettings'
+          icon={<HiOutlinePlus />}
+          linkTo='homepage'
+        >
+          Home Page
+        </NavMenu.NavSubMenu>
       </NavMenu>
     </nav>
   );
