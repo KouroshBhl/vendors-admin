@@ -5,7 +5,7 @@ import { getRegions } from '../../services/apiRegions';
 import { Option, Select } from '../../ui/Selection';
 import SpinnerMini from '../../ui/SpinnerMini';
 
-function ProductRegionCurrency({ index }) {
+function ProductRegionCurrency() {
   const { register, isEditSession, editProduct } = useFormContext();
   const { isLoading: isLoadingRegions, data: regionsData } = useFetchData(
     'regions',
@@ -22,36 +22,40 @@ function ProductRegionCurrency({ index }) {
   return (
     <>
       <Select
-        {...register(`selections.${index}.region`)}
-        defaultValue={`${isEditSession ? editProduct?.selections[index]?.region : 'region'}`}
+        defaultValue={`${isEditSession ? editProduct.currency : 'region'}`}
+        {...register(`region`, {
+          valueAsNumber: true,
+        })}
       >
         <Option
-          value={`${isEditSession ? editProduct?.selections[index]?.region : 'region'}`}
+          value={`${isEditSession ? editProduct.region : 'region'}`}
           disabled
         >
-          {isEditSession ? editProduct?.selections[index]?.region : 'Select'}
+          {isEditSession ? editProduct.region : 'Select Region'}
         </Option>
 
         {regionsData.map((option) => (
-          <Option key={option.id} value={option.regionEnglishName}>
+          <Option key={option.id} value={option.id}>
             {option.regionEnglishName}
           </Option>
         ))}
       </Select>
 
       <Select
-        {...register(`selections.${index}.currency`)}
-        defaultValue={`${isEditSession ? editProduct?.selections[index]?.currency : 'currency'}`}
+        {...register(`currency`, {
+          valueAsNumber: true,
+        })}
+        defaultValue={`${isEditSession ? editProduct.currency : 'currency'}`}
       >
         <Option
-          value={`${isEditSession ? editProduct?.selections[index]?.currency : 'currency'}`}
+          value={`${isEditSession ? editProduct.currency : 'currency'}`}
           disabled
         >
-          {isEditSession ? editProduct?.selections[index]?.currency : 'Select'}
+          {isEditSession ? editProduct.currency : 'Select Currency'}
         </Option>
 
         {currenciesData.map((option) => (
-          <Option key={option.id} value={option.currencyEnglishName}>
+          <Option key={option.id} value={option.id}>
             {option.currencyEnglishName}
           </Option>
         ))}

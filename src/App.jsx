@@ -19,6 +19,7 @@ import SubSubCategories from './features/categories/SubSubCategories';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './features/allProducts/EditProduct';
 import UiHomePage from './pages/UiHomePage';
+import Rates from './pages/Rates';
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ function App() {
             <Route path='dashboard' element={<Dashboard />} />
             <Route path='admins' element={<Admins />} />
             <Route path='orders' element={<Orders />} />
+            <Route path='rates' element={<Rates />} />
             <Route path='products' element={<AllProducts />} />
             <Route path='products/categories' element={<Categories />} />
             <Route
@@ -55,6 +57,7 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
+
       <Toaster
         position='top-center'
         gutter={12}

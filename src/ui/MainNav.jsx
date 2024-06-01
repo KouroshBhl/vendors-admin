@@ -20,6 +20,10 @@ function MainNav() {
           Home
         </NavMenu.NavMainLink>
 
+        <NavMenu.NavMainLink linkTo='/rates' icon={<HiOutlineHome />}>
+          Manage Rates
+        </NavMenu.NavMainLink>
+
         <NavMenu.NavMainLink
           linkTo='/products'
           icon={<HiOutlineSquaresPlus />}

@@ -27,27 +27,7 @@ function ProductOptionalOptions({ selectIndex }) {
                   `selections.${selectIndex}.options.${optionIndex}.name`
                 )}
               />
-              <OptionPriceContainer>
-                <Input
-                  placeholder='Base (+ or -) $'
-                  {...register(
-                    `selections.${selectIndex}.options.${optionIndex}.priceChange`,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                />
-
-                <Input
-                  placeholder='Discount %'
-                  {...register(
-                    `selections.${selectIndex}.options.${optionIndex}.discount`,
-                    {
-                      valueAsNumber: true,
-                    }
-                  )}
-                />
-              </OptionPriceContainer>
+              <OptionPriceContainer></OptionPriceContainer>
             </StyledInputs>
             <StyledAddOption>
               <Button type='button' onClick={() => optionRemove(optionIndex)}>
@@ -61,11 +41,6 @@ function ProductOptionalOptions({ selectIndex }) {
             +
           </Button>
         </StyledAddOption>
-        {/* <div>
-        <Button type='button' onClick={() => optionAppend()}>
-          +
-        </Button>
-      </div> */}
       </div>
     </>
   );
@@ -76,7 +51,6 @@ export default ProductOptionalOptions;
 const StyledInputs = styled.div`
   display: flex;
   gap: 0.5rem;
-  flex-direction: column;
   margin-bottom: 0.4rem;
 `;
 

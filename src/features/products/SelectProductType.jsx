@@ -11,29 +11,57 @@ function SelectProductType({ setProductType }) {
       <Wrapper>
         <RadionInput
           type='radio'
-          id='productsKey'
+          id='key'
           name='type'
-          value='productsKey'
+          value='key'
           onChange={handleChange}
           {...register('productType', {
             onChange: handleChange,
           })}
         />
-        <label htmlFor='productsKey'>GiftCart</label>
+        <label htmlFor='key'>Key</label>
       </Wrapper>
 
       <Wrapper>
         <RadionInput
           type='radio'
-          id='productsOptional'
+          id='gift'
           name='type'
-          value='productsOptional'
+          value='gift'
           onChange={handleChange}
           {...register('productType', {
             onChange: handleChange,
           })}
         />
-        <label htmlFor='productsOptional'>Optional</label>
+        <label htmlFor='gift'>Gift</label>
+      </Wrapper>
+
+      <Wrapper>
+        <RadionInput
+          type='radio'
+          id='account'
+          name='type'
+          value='account'
+          onChange={handleChange}
+          {...register('productType', {
+            onChange: handleChange,
+          })}
+        />
+        <label htmlFor='account'>Account</label>
+      </Wrapper>
+
+      <Wrapper>
+        <RadionInput
+          type='radio'
+          id='trade'
+          name='type'
+          value='trade'
+          onChange={handleChange}
+          {...register('productType', {
+            onChange: handleChange,
+          })}
+        />
+        <label htmlFor='trade'>Trade</label>
       </Wrapper>
     </Container>
   );

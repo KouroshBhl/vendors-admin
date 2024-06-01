@@ -17,19 +17,12 @@ function ProductOptional() {
 
   return (
     <>
-      <FormRow label='Base Price *'>
-        <Input
-          placeholder='$'
-          {...register('basePrice', { valueAsNumber: true })}
-        />
-      </FormRow>
-      <Table columns='4rem 1fr 8rem 8rem 8rem 1.5fr'>
+      <Table columns='4rem 1fr 8rem 8rem 8rem 8rem 1.5fr'>
         <Table.Header>
           <div></div>
           <div>Label</div>
+          <div>type</div>
           <div>Required?</div>
-          <div>Extra</div>
-          <div>Coupon</div>
           <div>Options</div>
         </Table.Header>
 
@@ -47,24 +40,24 @@ function ProductOptional() {
               placeholder='Selection name'
             />
 
+            {/* <Input
+              {...register(`selections.${selectIndex}.optionType`)}
+              placeholder='Option type'
+            /> */}
+            <Select {...register(`selections.${selectIndex}.optionType`)}>
+              <Option>Text</Option>
+              <Option>Number</Option>
+              <Option>Boolean</Option>
+              <Option>Select</Option>
+              <Option>Radio Button</Option>
+              <Option>Checkbox</Option>
+            </Select>
+
             <Select {...register(`selections.${selectIndex}.isRequired`)}>
               <Option>True</Option>
               <Option>False</Option>
             </Select>
 
-            <Input
-              {...register(`selections.${selectIndex}.extra`, {
-                valueAsNumber: true,
-              })}
-              placeholder='%'
-            />
-
-            <Input
-              {...register(`selections.${selectIndex}.coupon`, {
-                valueAsNumber: true,
-              })}
-              placeholder='%'
-            />
             <ProductOptionalOptions selectIndex={selectIndex} />
           </Table.Row>
         ))}
@@ -75,12 +68,6 @@ function ProductOptional() {
           </Button>
         </AddWrapper>
       </Table>
-      <FormRow label='Info needed from buyer *'>
-        <Input
-          placeholder='Write in persian and seprate each with Comma ,'
-          {...register('infoFromBuyer')}
-        />
-      </FormRow>
     </>
   );
 }

@@ -1,6 +1,7 @@
 import supabase, { supabaseUrl } from './supabase';
 
-export async function createProductKey(data, id) {
+export async function createProduct(data, id) {
+  console.log(data);
   const imageName = `${Math.random()}-${data.thumbnail.name}`.replaceAll(
     '/',
     ''
@@ -11,7 +12,7 @@ export async function createProductKey(data, id) {
     ? data.thumbnail
     : `${supabaseUrl}/storage/v1/object/public/product-thumbnail/${imageName}`;
 
-  let query = supabase.from('productsKey');
+  let query = supabase.from('products');
 
   if (!id) {
     query = query.insert([{ ...data, thumbnail: imagePath }]).select();
@@ -26,45 +27,7 @@ export async function createProductKey(data, id) {
 
   const { data: supaData, error } = await query.select().single();
 
-  if (error) throw new Error('Could not create product!');
-
-  if (hasImage) return supaData;
-
-  const { error: uploadError } = await supabase.storage
-    .from('product-thumbnail')
-    .upload(imageName, data.thumbnail);
-
-  if (uploadError) {
-    console.log('can not upload');
-    throw new Error('could not upload picture');
-  }
-}
-
-export async function createProductOptional(data, id) {
-  const imageName = `${Math.random()}-${data.thumbnail.name}`.replaceAll(
-    '/',
-    ''
-  );
-  const hasImage = data.thumbnail?.startsWith?.(supabaseUrl);
-
-  const imagePath = hasImage
-    ? data.thumbnail
-    : `${supabaseUrl}/storage/v1/object/public/product-thumbnail/${imageName}`;
-
-  let query = supabase.from('productsOptional');
-
-  if (!id) {
-    query = query.insert([{ ...data, thumbnail: imagePath }]).select();
-  }
-
-  if (id) {
-    query = query
-      .update({ ...data, thumbnail: imagePath })
-      .eq('uniqueId', id)
-      .select();
-  }
-
-  const { data: supaData, error } = await query.select().single();
+  console.log(error);
 
   if (error) throw new Error('Could not create product!');
 
@@ -78,22 +41,6 @@ export async function createProductOptional(data, id) {
     console.log('can not upload');
     throw new Error('could not upload picture');
   }
-
-  // const { error } = await supabase
-  //   .from('productsOptional')
-  //   .insert([{ ...data, thumbnail: imagePath }])
-  //   .select();
-
-  // if (error) throw new Error('Could not create product!');
-
-  // const { error: uploadError } = await supabase.storage
-  //   .from('product-thumbnail')
-  //   .upload(imageName, data.thumbnail);
-
-  // if (uploadError) {
-  //   console.log('can not upload');
-  //   throw new Error('could not upload picture');
-  // }
 }
 
 export async function getProducts() {
