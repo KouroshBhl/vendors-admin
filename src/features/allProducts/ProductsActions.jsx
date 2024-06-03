@@ -1,4 +1,6 @@
 import { HiOutlineTrash, HiOutlinePencilSquare } from 'react-icons/hi2';
+import { IoDuplicateOutline } from 'react-icons/io5';
+
 import { StyledActions, Button } from '../../ui/Actions';
 import { deleteProduct } from '../../services/apiProducts';
 import { useDeleteProduct } from './useDeleteProduct';
@@ -41,8 +43,11 @@ function ProductsActions({ uniqueId, productType }) {
           />
         </Modal.Window>
       </Modal>
-      <Link to={`/products/${uniqueId}?productType=${productType}`}>
+      <Link to={`/products/edit/${uniqueId}?productType=${productType}`}>
         <HiOutlinePencilSquare />
+      </Link>
+      <Link to={`/products/duplicate/${uniqueId}?productType=${productType}`}>
+        <IoDuplicateOutline />
       </Link>
     </StyledActions>
   );

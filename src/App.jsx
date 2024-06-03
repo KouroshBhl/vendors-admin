@@ -47,7 +47,11 @@ function App() {
               path='products/categories/:subCategoryId/:subSubCategoryId'
               element={<SubSubCategories />}
             />
-            <Route path='products/:productIdentify' element={<EditProduct />} />
+            <Route
+              path='products/edit/:productIdentify'
+              element={<EditProduct />}
+            />
+
             <Route path='products/brands' element={<Brands />} />
             <Route path='products/new' element={<AddProduct />} />
             <Route path='uisettings' element={<UiSettings />} />

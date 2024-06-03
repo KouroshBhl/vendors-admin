@@ -6,6 +6,7 @@ import { useGetProductDetail } from './useGetProductDetail';
 import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
+import Heading from '../../ui/Heading';
 
 function EditProduct() {
   const queryClient = useQueryClient();
@@ -27,7 +28,10 @@ function EditProduct() {
 
   return (
     <StyledHeader>
-      <h2>You are editing: {data.at(0).persianTitle}</h2>
+      <Heading as='h2'>
+        You are editing:
+        <span className='text-3xl'>{data.at(0).englishTitle}</span>
+      </Heading>
       <CreateProductForm editProduct={data.at(0)} />
     </StyledHeader>
   );

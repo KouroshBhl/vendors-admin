@@ -44,20 +44,13 @@ export async function createProduct(data, id) {
 }
 
 export async function getProducts() {
-  let { data: productsKey, error: productsKeyError } = await supabase
-    .from('productsKey')
-    .select('uniqueId, persianTitle, thumbnail, productType');
+  let { data: products, error } = await supabase
+    .from('products')
+    .select('uniqueId, persianTitle, thumbnail, price, productType');
 
-  let { data: productOptional, error: productOptionalError } = await supabase
-    .from('productsOptional')
-    .select('uniqueId, persianTitle, thumbnail, productType');
+  if (error) throw new Error('could not get products');
 
-  if (productsKeyError || productOptionalError) {
-    console.log('can not read data');
-    throw new Error('could not read data');
-  }
-
-  return { productsKey, productOptional };
+  return { products, error };
 }
 
 export async function deleteProduct(data) {
@@ -72,9 +65,9 @@ export async function deleteProduct(data) {
   }
 }
 
-export async function getProductDetails({ id, type }) {
+export async function getProductDetails({ id }) {
   let { data, error } = await supabase
-    .from(`${type}`)
+    .from('products')
     .select('*')
     .eq('uniqueId', id);
 

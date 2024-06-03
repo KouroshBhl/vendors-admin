@@ -17,7 +17,7 @@ import { useCreateProduct } from './useCreateProduct';
 import { useEditProduct } from './useEditProduct';
 import ProductRegionCurrency from './ProductRegionCurrency';
 
-function CreateProductForm({ editProduct = {} }) {
+function CreateProductForm({ editProduct = {}, duplicateProduct = {} }) {
   const { id: productId } = editProduct;
   const isEditSession = Boolean(productId);
   const { control, handleSubmit, register, formState, unregister, getValues } =
@@ -46,9 +46,14 @@ function CreateProductForm({ editProduct = {} }) {
 
   function onSubmit(data) {
     console.log(data);
+    const title = data.persianTitle.replaceAll(' ', '-');
+    const date = Date.now();
+    const slug = `${title}-${date}`;
+    console.log(slug);
     if (!isEditSession) {
       mutateCreateProduct({
         ...data,
+        slug,
         thumbnail: data?.thumbnail?.[0],
       });
     } else {
@@ -213,7 +218,7 @@ function CreateProductForm({ editProduct = {} }) {
                 isEditSession ? editProduct.isDirectBuy === false : true
               }
               {...register('deliveryTime', {
-                value: false,
+                valueAsNumber: true,
               })}
             />
           </StyledDirectBuy>

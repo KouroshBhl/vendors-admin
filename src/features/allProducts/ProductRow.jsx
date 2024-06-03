@@ -6,18 +6,14 @@ import { HiOutlineKey } from 'react-icons/hi2';
 import { HiOutlineListBullet } from 'react-icons/hi2';
 
 function ProductRow({ allProducts }) {
-  const { persianTitle, thumbnail, productType, uniqueId } = allProducts;
+  console.log(allProducts);
+  const { persianTitle, thumbnail, productType, uniqueId, price } = allProducts;
   return (
     <Table.Row>
       <Img src={thumbnail} alt={persianTitle} />
       <Name>{persianTitle}</Name>
-      <StyledActions>
-        {productType === 'productsKey' ? (
-          <HiOutlineKey />
-        ) : (
-          <HiOutlineListBullet />
-        )}
-      </StyledActions>
+      <Name>{price}</Name>
+      <span className='text-2xl font-semibold uppercase'>{productType}</span>
       <ProductsActions uniqueId={uniqueId} productType={productType} />
     </Table.Row>
   );
