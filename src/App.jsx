@@ -14,8 +14,6 @@ import Users from './pages/Users';
 import PageNotFound from './pages/PageNotFound';
 import GlobalStyle from './styles/GlobalStyle';
 import Categories from './pages/Categories';
-import SubCategories from './features/categories/SubCategories';
-import SubSubCategories from './features/categories/SubSubCategories';
 import AddProduct from './pages/AddProduct';
 import EditProduct from './features/allProducts/EditProduct';
 import UiHomePage from './pages/UiHomePage';
@@ -40,14 +38,7 @@ function App() {
               <Route path='rates' element={<Rates />} />
               <Route path='products' element={<AllProducts />} />
               <Route path='products/categories' element={<Categories />} />
-              <Route
-                path='products/categories/:subCategoryId'
-                element={<SubCategories />}
-              />
-              <Route
-                path='products/categories/:subCategoryId/:subSubCategoryId'
-                element={<SubSubCategories />}
-              />
+
               <Route
                 path='products/:productIdentify/:action'
                 element={<EditProduct />}

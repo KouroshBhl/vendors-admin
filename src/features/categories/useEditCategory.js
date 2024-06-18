@@ -8,7 +8,7 @@ export function useEditCategory() {
     useMutation({
       mutationFn: ({ newData, id }) => editCategory(newData, id),
       onSuccess: () => {
-        clientQuery.invalidateQueries(['categories']);
+        clientQuery.invalidateQueries(['category']);
         toast.success('Category updated successfully');
       },
       onError: () => {

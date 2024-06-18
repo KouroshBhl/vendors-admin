@@ -18,9 +18,7 @@ function CreateCategoryForm({ onCloseModal, data = {} }) {
 
   function onSubmit(data) {
     if (!isEditSession) {
-      const engName = data.englishName.toLowerCase().replace(/\s/g, '-');
-      const slug = `${engName}-${Date.now()}`;
-      mutateCreateCategory({ ...data, slug });
+      mutateCreateCategory({ ...data });
     } else {
       mutateEditCategory({ newData: { ...data }, id: catId });
     }
@@ -31,7 +29,7 @@ function CreateCategoryForm({ onCloseModal, data = {} }) {
   return (
     <Form type='modal' onSubmit={handleSubmit(onSubmit)}>
       <FormRow
-        label='Root category English name'
+        label='Category English name'
         error={errors?.englishName?.message}
       >
         <Input
@@ -44,7 +42,7 @@ function CreateCategoryForm({ onCloseModal, data = {} }) {
       </FormRow>
 
       <FormRow
-        label='Root category Persian name'
+        label='Category Persian name'
         error={errors?.englishName?.message}
       >
         <Input

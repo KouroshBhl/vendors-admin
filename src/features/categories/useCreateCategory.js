@@ -8,11 +8,11 @@ export function useCreateCategory() {
     useMutation({
       mutationFn: createCategory,
       onSuccess: () => {
-        clientQuery.invalidateQueries(['categories']);
-        toast.success('Brand created successfully');
+        clientQuery.invalidateQueries(['category']);
+        toast.success('Category created successfully');
       },
       onError: () => {
-        toast.error('Could not create brand!');
+        toast.error('Could not create Category!');
       },
     });
 

@@ -4,13 +4,13 @@ import Heading from '../ui/Heading';
 import Row from '../ui/Row';
 import Spinner from '../ui/Spinner';
 import ErrorFallback from '../ui/ErrorFallback';
-import { getRootCategories } from '../services/apiCategories';
+import { getCategories } from '../services/apiCategories';
 import { useFetchData } from '../hooks/useFetchData';
 
 function Categories() {
-  const { isLoading, error, refetch } = useFetchData(
-    'categories',
-    getRootCategories
+  const { isLoading, error, refetch, data } = useFetchData(
+    'category',
+    getCategories
   );
 
   if (isLoading) return <Spinner />;
@@ -25,7 +25,7 @@ function Categories() {
       </Row>
 
       <Row>
-        <CategoriesTable />
+        <CategoriesTable categories={data} />
         <div>
           <AddCategory />
         </div>

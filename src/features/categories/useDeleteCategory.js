@@ -8,7 +8,7 @@ export function useDeleteCategory() {
   const { isLoading, mutate } = useMutation({
     mutationFn: deleteCategory,
     onSuccess: () => {
-      queryClient.invalidateQueries(['categories']);
+      queryClient.invalidateQueries(['category']);
       toast.success(`Category deleted succesfully`);
     },
     onError: () => {

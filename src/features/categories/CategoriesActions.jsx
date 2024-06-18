@@ -1,4 +1,3 @@
-import { styled } from 'styled-components';
 import { HiOutlineTrash, HiOutlinePencilSquare } from 'react-icons/hi2';
 
 import Spinner from '../../ui/Spinner';
