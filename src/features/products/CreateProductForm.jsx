@@ -8,7 +8,6 @@ import SelectCategoryForm from './SelectCategoryForm';
 import Input from '../../ui/Input';
 import SelectBrandForm from './SelectBrandForm';
 import SelectProductType from './SelectProductType';
-import ImageUploder from './ImageUploader';
 import { useEffect, useState } from 'react';
 import ProductOptional from './ProductOptional';
 import FileInput from '../../ui/FileInput';
@@ -16,23 +15,14 @@ import SpinnerMini from '../../ui/SpinnerMini';
 import { styled } from 'styled-components';
 import { useCreateProduct } from './useCreateProduct';
 import { useEditProduct } from './useEditProduct';
-import ProductRegionCurrency from './ProductRegionCurrency';
 import { useParams } from 'react-router-dom';
 import ProductDescriptionEditor from './ProductDescriptionEditor';
-import { useProductContext } from '../../context/product/productContext';
 import { useDuplicateProduct } from './useDuplicateProduct';
+import ImageUploader from './ImageUploader';
 
 function CreateProductForm({ editProduct = {} }) {
   let searchParams = useParams();
   const actionType = searchParams?.action;
-  const { dispatch, uniqueId } = useProductContext();
-
-  useEffect(() => {
-    dispatch({
-      type: 'SET_UUID',
-      payload: { uniqueId: editProduct?.uniqueId, actionType },
-    });
-  }, []);
 
   const { uniqueId: productId } = editProduct;
   const isEditSession = Boolean(productId);
@@ -42,9 +32,6 @@ function CreateProductForm({ editProduct = {} }) {
     });
 
   const [productType, setProductType] = useState('');
-  const [productGallery, setProductGallery] = useState(
-    editProduct.gallery || []
-  );
 
   const { status, mutateCreateProduct } = useCreateProduct();
   const { isEditingProduct, mutateEditProduct } = useEditProduct();
@@ -64,17 +51,10 @@ function CreateProductForm({ editProduct = {} }) {
   );
 
   function onSubmit(data) {
-    const summary = data.summary
-      ? data.summary
-      : data.description.text.substring(0, 150);
-
     if (!isEditSession) {
       mutateCreateProduct({
         ...data,
-        uniqueId,
         description: data?.description?.json,
-        summary,
-        gallery: productGallery,
         thumbnail: data?.thumbnail?.[0],
       });
     } else if (isEditSession && actionType === 'duplicate') {
@@ -87,9 +67,6 @@ function CreateProductForm({ editProduct = {} }) {
         data: {
           ...data,
           description: data?.description?.json,
-          gallery: productGallery,
-          summary,
-          uniqueId,
           thumbnail: image,
         },
         duplicatingId: searchParams?.productIdentify,
@@ -102,9 +79,7 @@ function CreateProductForm({ editProduct = {} }) {
 
       mutateEditProduct({
         ...data,
-        gallery: productGallery,
         thumbnail: image,
-        summary,
         description: data?.description?.json,
       });
     }
@@ -120,207 +95,6 @@ function CreateProductForm({ editProduct = {} }) {
       control={control}
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Label>Select Categories *</Label>
-        <FormRow>
-          <SelectCategoryForm register={register} />
-        </FormRow>
-
-        <FormRow label='Select Platform *'>
-          <SelectBrandForm register={register} />
-        </FormRow>
-
-        <FormRow label='Region & Currency'>
-          <ProductRegionCurrency />
-        </FormRow>
-
-        <FormRow label='Product Price*' error={errors?.price?.message}>
-          <Input
-            placeholder='price'
-            type='number'
-            step='any'
-            {...register('price', {
-              valueAsNumber: true,
-              required: 'This feild is required',
-            })}
-          />
-        </FormRow>
-
-        <FormRow label='Product Price in discount'>
-          <StyledDirectBuy>
-            <Input
-              placeholder='discount'
-              type='number'
-              step='any'
-              {...register('discount', {
-                valueAsNumber: true,
-              })}
-            />
-
-            <label htmlFor='isPercentage'>is Percentage (%) ?</label>
-            <Input
-              id='isPercentage'
-              placeholder='discount'
-              type='checkbox'
-              {...register('isDiscountPercentage', {
-                value: true,
-              })}
-            />
-          </StyledDirectBuy>
-        </FormRow>
-
-        <FormRow label='Product coupon discount'>
-          <StyledDirectBuy>
-            <Input
-              placeholder='coupon'
-              type='number'
-              step='any'
-              {...register('coupon', {
-                valueAsNumber: true,
-              })}
-            />
-
-            <label htmlFor='discount'>is Percentage (%) ?</label>
-            <Input
-              id='discount'
-              placeholder='discount'
-              type='checkbox'
-              {...register('isCouponPercentage', {
-                value: true,
-              })}
-            />
-          </StyledDirectBuy>
-        </FormRow>
-
-        <FormRow label='Product extra'>
-          <StyledDirectBuy>
-            <Input
-              placeholder='extra'
-              type='number'
-              step='any'
-              {...register('extra', {
-                valueAsNumber: true,
-              })}
-            />
-
-            <label htmlFor='extra'>is Percentage (%) ?</label>
-            <Input
-              id='extra'
-              placeholder='extra'
-              type='checkbox'
-              {...register('isExtraPercentage', {
-                value: true,
-              })}
-            />
-          </StyledDirectBuy>
-        </FormRow>
-
-        {!isEditSession && (
-          <FormRow label='Product Type *'>
-            <SelectProductType setProductType={setProductType} />
-          </FormRow>
-        )}
-
-        <FormRow label='Is instatly deliver?'>
-          <StyledDirectBuy>
-            <label htmlFor='instantYes'>Yes</label>
-            <Input
-              defaultValue={true}
-              radioGroup='instantlyDevliver'
-              defaultChecked={isEditSession && editProduct.isInstantlyDeliver}
-              type='radio'
-              id='instantYes'
-              {...register('isInstantlyDeliver', {
-                value: true,
-              })}
-            />
-
-            <label htmlFor='instantNo'>No</label>
-            <Input
-              defaultValue={false}
-              radioGroup='isInstantlyDevliver'
-              type='radio'
-              id='instantNo'
-              defaultChecked={isEditSession && !editProduct.isInstantlyDeliver}
-              {...register('isInstantlyDeliver', {
-                value: false,
-              })}
-            />
-
-            <label htmlFor='deliveryTime'>Delivery time (min)</label>
-            <Input
-              placeholder='Min devlivery time'
-              type='number'
-              id='deliveryTime'
-              defaultValue={isEditSession ? editProduct.minDeliveryTime : ''}
-              defaultChecked={
-                isEditSession ? editProduct.isDirectBuy === false : true
-              }
-              {...register('minDeliveryTime', {
-                valueAsNumber: true,
-              })}
-            />
-
-            <Input
-              defaultValue={isEditSession ? editProduct.maxDeliveryTime : ''}
-              placeholder='Max delivery time'
-              type='number'
-              id='deliveryTime'
-              defaultChecked={
-                isEditSession ? editProduct.isDirectBuy === false : true
-              }
-              {...register('maxDeliveryTime', {
-                valueAsNumber: true,
-              })}
-            />
-          </StyledDirectBuy>
-        </FormRow>
-
-        {/* {(productType === 'productsKey' ||
-          editProduct.productType === 'productsKey') && <ProductGiftcart />}
-
-        {(productType === 'productsOptional' ||
-          editProduct.productType === 'productsOptional') && (
-          <ProductOptional />
-        )} */}
-
-        <label htmlFor='directYes' className='font-medium mb-2'>
-          Info need from buyer
-        </label>
-
-        <ProductOptional />
-
-        <FormRow label='We buy this product directly?'>
-          <StyledDirectBuy>
-            <label htmlFor='directYes'>Yes</label>
-            <Input
-              defaultValue={true}
-              radioGroup='directBuy'
-              defaultChecked={
-                isEditSession ? editProduct.isDirectBuy === true : false
-              }
-              type='radio'
-              id='directYes'
-              {...register('isDirectBuy', {
-                value: true,
-              })}
-            />
-
-            <label htmlFor='directNo'>No</label>
-            <Input
-              defaultValue={false}
-              radioGroup='directBuy'
-              type='radio'
-              id='directNo'
-              defaultChecked={
-                isEditSession ? editProduct.isDirectBuy === false : true
-              }
-              {...register('isDirectBuy', {
-                value: false,
-              })}
-            />
-          </StyledDirectBuy>
-        </FormRow>
-
         <FormRow
           error={errors?.persianTitle?.message}
           label='Product Persian Title *'
@@ -344,11 +118,32 @@ function CreateProductForm({ editProduct = {} }) {
           />
         </FormRow>
 
+        <Label>Select product type *</Label>
+        <FormRow>
+          <SelectProductType setProductType={setProductType} />
+        </FormRow>
+
+        <Label>Select Categories *</Label>
+        <FormRow>
+          <SelectCategoryForm register={register} />
+        </FormRow>
+
+        <Label>Select Platform *</Label>
+        <FormRow>
+          <SelectBrandForm register={register} />
+        </FormRow>
+
+        <Label htmlFor='directYes' className='font-medium mb-2'>
+          Info need from buyer
+        </Label>
+
+        <ProductOptional />
+
         <FormRow label='Product Thumbnail *' error={errors?.thumbnail?.message}>
           <FileInput {...register('thumbnail')} />
         </FormRow>
 
-        <FormRow label='Before Buy' error={errors?.beforeBuy?.message}>
+        <FormRow label='Product Note' error={errors?.beforeBuy?.message}>
           <Textarea {...register('productNote')} dir='rtl' />
         </FormRow>
 
@@ -360,24 +155,7 @@ function CreateProductForm({ editProduct = {} }) {
           />
         </FormRow>
 
-        <FormRow label='Note for Buyers'>
-          <Textarea {...register('tips')} dir='rtl' />
-        </FormRow>
-
-        <FormRow label='Note for other admins'>
-          <Textarea {...register('adminNote')} />
-        </FormRow>
-
-        <FormRow label='Product summary'>
-          <Textarea {...register('summary')} />
-        </FormRow>
-
-        <ImageUploder
-          setProductGallery={setProductGallery}
-          imagesGallery={editProduct?.gallery}
-          productGallery={productGallery}
-          uuId={editProduct?.uniqueId || uniqueId}
-        />
+        <ImageUploader />
 
         <ProductDescriptionEditor
           defaultValue={
@@ -412,10 +190,4 @@ export default CreateProductForm;
 
 const Label = styled.label`
   font-weight: 500;
-`;
-
-const StyledDirectBuy = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
 `;

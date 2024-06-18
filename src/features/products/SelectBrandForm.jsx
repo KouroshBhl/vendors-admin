@@ -1,18 +1,17 @@
 import { useFetchData } from '../../hooks/useFetchData';
 import { getBrands } from '../../services/apiBrands';
-import FormRow from '../../ui/FormRow';
 import { Option, Select } from '../../ui/Selection';
 import SpinnerMini from '../../ui/SpinnerMini';
 
 function SelectBrandForm({ register }) {
-  const { isLoading, data, error, refetch } = useFetchData('brands', getBrands);
+  const { isLoading, data } = useFetchData('brands', getBrands);
 
   if (isLoading) return <SpinnerMini />;
 
   return (
     <Select
       defaultValue={'DEFAULT'}
-      {...register('brand', {
+      {...register('platform', {
         required: 'This feild is required',
         valueAsNumber: true,
       })}

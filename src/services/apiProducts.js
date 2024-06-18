@@ -1,18 +1,20 @@
 import supabase, { supabaseUrl } from './supabase';
 
 export async function createProduct(data) {
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/products/${data.uniqueId}/thumbnail/mainImage`;
+  console.log(data);
+  const imageName = `thumbnail-${data.thumbnail.name}-${data.thumbnail.size}`;
+  const imagePath = `${supabaseUrl}/storage/v1/object/public/products/${imageName}`;
 
   const { data: createData, error: createError } = await supabase
-    .from('products')
+    .from('product')
     .insert([{ ...data, thumbnail: imagePath }])
     .select();
 
   if (createError) throw new Error('Could not create product!');
 
   const { error: uploadError } = await supabase.storage
-    .from(`products/${data.uniqueId}/thumbnail`)
-    .upload('mainImage', data.thumbnail);
+    .from(`products`)
+    .upload(imageName, data.thumbnail);
 
   if (uploadError) throw new Error('could not upload picture');
 
@@ -22,9 +24,11 @@ export async function createProduct(data) {
 export async function duplicateProduct(data, duplicatingId) {
   delete data?.created_at;
   const hasImage = data?.thumbnail?.startsWith?.(supabaseUrl);
+
+  const imageName = `thumbnail-${data.thumbnail.name}-${data.thumbnail.size}`;
   const imagePath = hasImage
     ? data.thumbnail
-    : `${supabaseUrl}/storage/v1/object/public/products/${data.uniqueId}/thumbnail/mainImage`;
+    : `${supabaseUrl}/storage/v1/object/public/products/${imageName}`;
 
   const { data: duplicateData, error: createError } = await supabase
     .from('products')
@@ -33,22 +37,11 @@ export async function duplicateProduct(data, duplicatingId) {
 
   if (createError) throw new Error('could not duplicate product');
 
-  if (hasImage) {
-    const { data: thumbnailData, error: thumbDuplicateError } =
-      await supabase.storage
-        .from('products')
-        .copy(
-          `${duplicatingId}/thumbnail/mainImage`,
-          `${data.uniqueId}/thumbnail/mainImage`
-        );
-
-    if (thumbDuplicateError) throw new Error('could not duplicate thumbnail');
-  }
   if (!hasImage) {
     console.log('has image');
     const { error: uploadError } = await supabase.storage
-      .from(`products/${data.uniqueId}/thumbnail`)
-      .upload('mainImage', data.thumbnail);
+      .from(`products`)
+      .upload(imageName, data.thumbnail);
 
     if (uploadError) throw new Error('could not duplicate thumbnail');
   }
@@ -58,24 +51,22 @@ export async function duplicateProduct(data, duplicatingId) {
 
 export async function editProduct(data) {
   const hasImage = data?.thumbnail?.startsWith?.(supabaseUrl);
+  const imageName = `thumbnail-${data.thumbnail.name}-${data.thumbnail.size}`;
   const imagePath = hasImage
     ? data.thumbnail
-    : `${supabaseUrl}/storage/v1/object/public/products/${data.uniqueId}/thumbnail/mainImage`;
+    : `${supabaseUrl}/storage/v1/object/public/products/${imageName}`;
 
   if (!hasImage) {
     const { data: uploadData, error } = await supabase.storage
-      .from(`products/${data.uniqueId}/thumbnail`)
-      .update(`mainImage`, data.thumbnail, {
-        cacheControl: '1000',
-        upsert: true,
-      });
+      .from(`products`)
+      .upload(imageName, data.thumbnail);
     if (error) throw new Error('could not update product thumbnail');
   }
 
   const { data: updateData, error } = await supabase
-    .from('products')
+    .from('product')
     .update({ ...data, thumbnail: imagePath })
-    .eq('uniqueId', data.uniqueId)
+    .eq('id', data.id)
     .select();
 
   if (error) throw new Error('could not update product');
@@ -85,19 +76,16 @@ export async function editProduct(data) {
 
 export async function getProducts() {
   let { data: products, error } = await supabase
-    .from('products')
-    .select('uniqueId, persianTitle, thumbnail, price, productType');
+    .from('product')
+    .select('id,uniqueId, persianTitle, thumbnail, productType');
 
   if (error) throw new Error('could not get products');
 
   return products;
 }
 
-export async function deleteProduct(data) {
-  const { error } = await supabase
-    .from('products')
-    .delete()
-    .eq('uniqueId', data.uniqueId);
+export async function deleteProduct({ id }) {
+  const { error } = await supabase.from('product').delete().eq('id', id);
 
   if (error) {
     console.log('can not delete data');
@@ -106,10 +94,7 @@ export async function deleteProduct(data) {
 }
 
 export async function getProductDetails({ id }) {
-  let { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .eq('uniqueId', id);
+  let { data, error } = await supabase.from('product').select('*').eq('id', id);
 
   if (error) {
     console.log('can not read data');
@@ -119,13 +104,15 @@ export async function getProductDetails({ id }) {
   return data;
 }
 
-export async function uploadImages({ data, id }) {
+export async function uploadImages({ data }) {
   const imageName = `${data.size}-${data.lastModified}`;
-  console.log(id);
+  console.log(data);
 
   const { data: uploadData, error } = await supabase.storage
-    .from(`products/${id}/gallery`)
+    .from('gallery')
     .upload(imageName, data);
+
+  console.log(error);
 
   if (error) {
     throw new Error('could not read data');

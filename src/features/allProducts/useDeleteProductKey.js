@@ -5,8 +5,8 @@ export function useDeleteProductKey(name, query, mutationFunction, id) {
   const queryClient = useQueryClient();
 
   const { isLoading, mutate } = useMutation({
-    mutationFn: ({ uniqueId, productType }) => {
-      mutationFunction({ uniqueId, productType });
+    mutationFn: ({ id, productType }) => {
+      mutationFunction({ id, productType });
     },
     onSuccess: () => {
       console.log(true);

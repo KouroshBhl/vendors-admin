@@ -5,13 +5,8 @@ import { useUploadImages } from './useUploadImages';
 import { supabaseUrl } from '../../services/supabase';
 import toast from 'react-hot-toast';
 
-export default function ImageUploader({
-  setProductGallery,
-  imagesGallery,
-  productGallery,
-  uuId,
-}) {
-  const [images, setImages] = React.useState(imagesGallery);
+export default function ImageUploader() {
+  const [images, setImages] = React.useState();
   const maxNumber = 69;
   const { status, mutateUploadImages, isSuccess } = useUploadImages();
 
@@ -25,27 +20,17 @@ export default function ImageUploader({
       const imageName =
         `${image.file.size}-${image.file.lastModified}`.replaceAll('/', '-');
 
-      const imagePath = `${supabaseUrl}/storage/v1/object/public/products/${uuId}/gallery/${imageName}`;
+      const imagePath = `${supabaseUrl}/storage/v1/object/public/gallery${imageName}`;
 
-      mutateUploadImages({ data: image.file, id: uuId });
-      setProductGallery((prev) => [
-        ...prev,
-        { url: imagePath, id: `${image.file.size}-${image.file.lastModified}` },
-      ]);
+      mutateUploadImages({ data: image.file });
     });
-  }
-
-  function handleDeleteImage(file) {
-    const deleteImage = productGallery.filter((image) => image.id !== file.id);
-    setProductGallery(deleteImage);
   }
 
   function handleCopyUrl(data) {
     const imageName = `${data.file.size}-${data.file.lastModified}`;
 
-    const imagePath = `${supabaseUrl}/storage/v1/object/public/products/${uuId}/gallery/${imageName}`;
+    const imagePath = `${supabaseUrl}/storage/v1/object/public/gallery/${imageName}`;
 
-    console.log(data);
     navigator.clipboard.writeText(imagePath);
     toast.success('URL copied to clipboard');
   }
@@ -117,7 +102,6 @@ export default function ImageUploader({
                     </Button> */}
                         <Button
                           onClick={() => {
-                            handleDeleteImage(image);
                             onImageRemove(index);
                           }}
                           type='button'
@@ -130,19 +114,6 @@ export default function ImageUploader({
                             type='button'
                             size='small'
                             onClick={() => handleCopyUrl(image)}
-                          >
-                            Get URL
-                          </Button>
-                        )}
-
-                        {imagesGallery && (
-                          <Button
-                            type='button'
-                            size='small'
-                            onClick={() => {
-                              navigator.clipboard.writeText(image.url);
-                              toast.success('URL copied to clipboard');
-                            }}
                           >
                             Get URL
                           </Button>

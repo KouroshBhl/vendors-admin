@@ -10,18 +10,19 @@ import Modal from '../../ui/Modal';
 import ConfirmDelete from '../../ui/ConfirmDelete';
 import { Link } from 'react-router-dom';
 
-function ProductsActions({ uniqueId, productType }) {
+function ProductsActions({ id, productType }) {
+  console.log(id, productType);
   const queryClient = useQueryClient();
 
   const { isLoading, mutate } = useDeleteProduct(
-    'Product',
+    'product',
     productType,
     deleteProduct,
-    uniqueId
+    id
   );
 
   function handleClickProduct() {
-    mutate({ uniqueId, productType });
+    mutate({ id, productType });
     queryClient.invalidateQueries(['productsOptional', 'productsKey']);
   }
 
@@ -43,13 +44,13 @@ function ProductsActions({ uniqueId, productType }) {
           />
         </Modal.Window>
       </Modal>
-      <Link to={`/products/${uniqueId}/edit`}>
+      <Link to={`/products/${id}/edit`}>
         <HiOutlinePencilSquare />
       </Link>
 
-      <Link to={`/products/${uniqueId}/duplicate`}>
+      {/* <Link to={`/products/${uniqueId}/duplicate`}>
         <IoDuplicateOutline />
-      </Link>
+      </Link> */}
     </StyledActions>
   );
 }

@@ -7,7 +7,6 @@ import { useFormContext } from 'react-hook-form';
 
 function SelectCategoryForm({ register }) {
   const { editProduct } = useFormContext();
-  const [rootId, setRootId] = useState(editProduct.rootCategory || null);
   const { data: categories, isLoading } = useFetchData(
     'category',
     getCategories
@@ -20,9 +19,8 @@ function SelectCategoryForm({ register }) {
     <>
       <Select
         defaultValue={'DEFAULT'}
-        {...register('rootCategory', {
+        {...register('categoryId', {
           required: 'This feild is required',
-          onChange: (e) => setRootId(e.target.value),
           valueAsNumber: true,
         })}
       >
@@ -30,9 +28,9 @@ function SelectCategoryForm({ register }) {
           Select Root Category
         </Option>
 
-        {categories.map((rootCat) => (
-          <Option key={rootCat.id} value={rootCat.id}>
-            {rootCat.englishName}
+        {categories.map((cat) => (
+          <Option key={cat.id} value={cat.id}>
+            {cat.englishName}
           </Option>
         ))}
       </Select>

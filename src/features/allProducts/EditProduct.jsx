@@ -7,27 +7,21 @@ import { useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import Heading from '../../ui/Heading';
-import { useProductContext } from '../../context/product/productContext';
 
 function EditProduct() {
   const queryClient = useQueryClient();
   const { productIdentify } = useParams();
-  const [searchParams, setSearchParams] = useSearchParams();
   const { data, isLoading, isFetching } = useGetProductDetail(
     `productDetails`,
     getProductDetails,
     productIdentify
   );
 
-  // const { dispatch } = useProductContext();
-
   useEffect(function () {
     queryClient.resetQueries('productDetails');
   }, []);
 
   if (isLoading && isFetching) return <Spinner />;
-  // dispatch({ type: 'SET_DATA', payload: data.at(0) });
-  // console.log(data.at(0));
 
   return (
     <StyledHeader>

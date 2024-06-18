@@ -9,7 +9,7 @@ export function useDuplicateProduct() {
       mutationFn: ({ data, duplicatingId }) =>
         duplicateProduct(data, duplicatingId),
       onSuccess: () => {
-        clientQuery.invalidateQueries(['products']);
+        clientQuery.invalidateQueries(['product']);
         toast.success('Product duplicated successfully');
       },
       onError: () => {

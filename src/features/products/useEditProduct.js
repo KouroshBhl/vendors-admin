@@ -7,7 +7,7 @@ export function useEditProduct() {
   const { status: isEditingProduct, mutate: mutateEditProduct } = useMutation({
     mutationFn: editProduct,
     onSuccess: () => {
-      clientQuery.invalidateQueries(['products']);
+      clientQuery.invalidateQueries(['product']);
       toast.success('Product edited successfully');
     },
     onError: (err) => {
