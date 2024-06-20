@@ -1,11 +1,9 @@
 import supabase from './supabase';
 
 export async function getRegions() {
-  const { data, error } = await supabase.from('regions').select('*');
+  const { data, error } = await supabase.from('product_platform').select('*');
 
-  if (error) {
-    console.log(false);
-    throw new Error('Could not get regions');
-  }
+  if (error) throw new Error('Could not get platforms');
+
   return data;
 }

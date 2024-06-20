@@ -3,12 +3,12 @@ import { Name } from '../../ui/TableRowUi';
 import CategoriesActions from './CategoriesActions';
 
 function CategoryRow({ categories }) {
-  const { englishName, persianName, id } = categories;
+  const { english_name, persian_name, id } = categories;
 
   return (
     <Table.Row>
-      <Name>{englishName}</Name>
-      <Name>{persianName}</Name>
+      <Name>{english_name}</Name>
+      <Name>{persian_name}</Name>
       <CategoriesActions data={{ ...categories }} categoryID={id} />
     </Table.Row>
   );

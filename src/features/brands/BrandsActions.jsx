@@ -27,7 +27,7 @@ function BrandsActions({ brandID, data }) {
         </Modal.Open>
         <Modal.Window name='delete'>
           <ConfirmDelete
-            resourceName={`${data.englishName} brand`}
+            resourceName={`${data.english_name} platform`}
             onConfirm={() => mutate(brandID)}
             disabled={isLoading}
           />

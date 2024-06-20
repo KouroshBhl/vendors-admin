@@ -1,7 +1,6 @@
 import { useFetchData } from '../../hooks/useFetchData';
 import { getCategories } from '../../services/apiCategories';
 import SpinnerMini from '../../ui/SpinnerMini';
-import { useState } from 'react';
 import { Option, Select } from '../../ui/Selection';
 import { useFormContext } from 'react-hook-form';
 
@@ -11,7 +10,6 @@ function SelectCategoryForm({ register }) {
     'category',
     getCategories
   );
-  console.log(categories);
 
   if (isLoading) return <SpinnerMini />;
 
@@ -19,7 +17,7 @@ function SelectCategoryForm({ register }) {
     <>
       <Select
         defaultValue={'DEFAULT'}
-        {...register('categoryId', {
+        {...register('category_id', {
           required: 'This feild is required',
           valueAsNumber: true,
         })}
@@ -30,7 +28,7 @@ function SelectCategoryForm({ register }) {
 
         {categories.map((cat) => (
           <Option key={cat.id} value={cat.id}>
-            {cat.englishName}
+            {cat.english_name}
           </Option>
         ))}
       </Select>

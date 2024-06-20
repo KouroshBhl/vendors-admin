@@ -9,10 +9,10 @@ export function useCreateBrand() {
       mutationFn: createEditBrand,
       onSuccess: () => {
         clientQuery.invalidateQueries(['brands']);
-        toast.success('Brand created successfully');
+        toast.success('Platform created successfully');
       },
       onError: () => {
-        toast.error('Could not create brand!');
+        toast.error('Could not create platform!');
       },
     }
   );

@@ -2,7 +2,7 @@ import supabase, { supabaseUrl } from './supabase';
 
 export async function createProduct(data) {
   console.log(data);
-  const imageName = `thumbnail-${data.thumbnail.name}-${data.thumbnail.size}`;
+  const imageName = `thumbnail-${data.thumbnail.name}-${data.thumbnail.size}-${Math.random() * 1000}`;
   const imagePath = `${supabaseUrl}/storage/v1/object/public/products/${imageName}`;
 
   const { data: createData, error: createError } = await supabase
@@ -10,7 +10,9 @@ export async function createProduct(data) {
     .insert([{ ...data, thumbnail: imagePath }])
     .select();
 
-  if (createError) throw new Error('Could not create product!');
+  console.log(createError);
+
+  if (createError) throw new Error(createError?.message);
 
   const { error: uploadError } = await supabase.storage
     .from(`products`)
@@ -31,7 +33,7 @@ export async function duplicateProduct(data, duplicatingId) {
     : `${supabaseUrl}/storage/v1/object/public/products/${imageName}`;
 
   const { data: duplicateData, error: createError } = await supabase
-    .from('products')
+    .from('product')
     .insert([{ ...data, thumbnail: imagePath }])
     .select();
 
@@ -77,9 +79,19 @@ export async function editProduct(data) {
 export async function getProducts() {
   let { data: products, error } = await supabase
     .from('product')
-    .select('id,uniqueId, persianTitle, thumbnail, productType');
+    .select('id,unique_id, persian_title, thumbnail, product_type');
 
   if (error) throw new Error('could not get products');
+
+  return products;
+}
+
+export async function getProductType() {
+  let { data: products, error } = await supabase
+    .from('product_type')
+    .select('*');
+
+  if (error) throw new Error('could not get product type');
 
   return products;
 }

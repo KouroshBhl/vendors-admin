@@ -1,7 +1,7 @@
 import supabase from './supabase';
 
 export async function getCategories() {
-  const { data, error } = await supabase.from('category').select('*');
+  const { data, error } = await supabase.from('product_category').select('*');
 
   if (error) {
     console.error(error);
@@ -12,14 +12,17 @@ export async function getCategories() {
 }
 
 export async function deleteCategory(id) {
-  const { error } = await supabase.from('category').delete().eq('id', id);
+  const { error } = await supabase
+    .from('product_category')
+    .delete()
+    .eq('id', id);
 
   if (error) throw new Error('Could not delete category');
 }
 
 export async function createCategory(data) {
   const { error } = await supabase
-    .from('category')
+    .from('product_category')
     .insert([{ ...data }])
     .select();
 
@@ -28,7 +31,7 @@ export async function createCategory(data) {
 
 export async function editCategory(newData, id) {
   const { error } = await supabase
-    .from('category')
+    .from('product_category')
     .update({ ...newData })
     .eq('id', id)
     .select();

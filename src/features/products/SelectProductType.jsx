@@ -1,98 +1,38 @@
 import { styled } from 'styled-components';
 import { useFormContext } from 'react-hook-form';
+import { useFetchData } from '../../hooks/useFetchData';
+import { getProductType } from '../../services/apiProducts';
+import SpinnerMini from '../../ui/SpinnerMini';
+import { Option, Select } from '../../ui/Selection';
 
 function SelectProductType({ setProductType }) {
   const { register } = useFormContext();
+  const { data, isLoading } = useFetchData('product_type', getProductType);
   function handleChange(e) {
     setProductType(e.target.value);
   }
+
+  if (isLoading) return <SpinnerMini />;
+  console.log(data);
+
   return (
-    <Container>
-      <Wrapper>
-        <RadionInput
-          type='radio'
-          id='key'
-          name='type'
-          value='key'
-          onChange={handleChange}
-          {...register('productType', {
-            onChange: handleChange,
-          })}
-        />
-        <label htmlFor='key'>Key</label>
-      </Wrapper>
-
-      <Wrapper>
-        <RadionInput
-          type='radio'
-          id='gift'
-          name='type'
-          value='gift'
-          onChange={handleChange}
-          {...register('productType', {
-            onChange: handleChange,
-          })}
-        />
-        <label htmlFor='gift'>Gift</label>
-      </Wrapper>
-
-      <Wrapper>
-        <RadionInput
-          type='radio'
-          id='account'
-          name='type'
-          value='account'
-          onChange={handleChange}
-          {...register('productType', {
-            onChange: handleChange,
-          })}
-        />
-        <label htmlFor='account'>Account</label>
-      </Wrapper>
-
-      <Wrapper>
-        <RadionInput
-          type='radio'
-          id='trade'
-          name='type'
-          value='trade'
-          onChange={handleChange}
-          {...register('productType', {
-            onChange: handleChange,
-          })}
-        />
-        <label htmlFor='trade'>Trade</label>
-      </Wrapper>
-    </Container>
+    <Select
+      defaultValue={'DEFAULT'}
+      {...register('product_type', {
+        required: 'This feild is required',
+        valueAsNumber: true,
+      })}
+    >
+      <Option value='DEFAULT' disabled>
+        Select product type*
+      </Option>
+      {data.map((type) => (
+        <Option key={type.id} value={type.id}>
+          {type.english_name}
+        </Option>
+      ))}
+    </Select>
   );
 }
 
 export default SelectProductType;
-
-const Container = styled.div`
-  display: flex;
-  gap: 2.4rem;
-
-  > span {
-    font-size: 1.4rem;
-    font-weight: 500;
-  }
-`;
-
-const Wrapper = styled.div`
-  display: flex;
-  gap: 1rem;
-  font-size: 1.6rem;
-  justify-content: center;
-  align-items: center;
-`;
-
-const RadionInput = styled.input`
-  width: 1.6rem;
-  height: 1.6rem;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-`;

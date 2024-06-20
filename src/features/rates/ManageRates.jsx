@@ -1,22 +1,14 @@
 import { useFetchData } from '../../hooks/useFetchData';
 import { getRates } from '../../services/apiRates';
-import { HiOutlinePencilSquare } from 'react-icons/hi2';
 
 import commafy from '../../utils/commafy';
 import Spinner from '../../ui/Spinner';
-import Input from '../../ui/Input';
-import FormRow from '../../ui/FormRow';
 import Button from '../../ui/Button';
 import { useState } from 'react';
 import EditRate from './EditRate';
 
 function ManageRates() {
-  const { isLoading, data, error, refetch, fetchStatus } = useFetchData(
-    'getRates',
-    getRates
-  );
-
-  console.log(data);
+  const { isLoading, data } = useFetchData('getRates', getRates);
 
   const [idNotDisabled, setIdNotDisabled] = useState(null);
 
@@ -36,7 +28,7 @@ function ManageRates() {
               className='grid grid-cols-3 justify-center items-center w-1/2'
             >
               <span className='text-md font-semibold'>
-                {rate.currencyEnglishName}
+                {rate.currency_english_name}
               </span>
               <span className='text-2xl font-bold'>{commafy(rate.price)}</span>
               {idNotDisabled !== rate.id ? (
@@ -49,7 +41,6 @@ function ManageRates() {
                   setIdNotDisabled={setIdNotDisabled}
                 />
               )}
-              {/* {idNotDisabled && <EditRate rateId={idNotDisabled} />} */}
             </div>
           );
         })}

@@ -1,9 +1,8 @@
 import supabase from './supabase';
 
 export async function searchProduct(query) {
-  console.log(typeof query);
   const { data: searchData, error } = await supabase
-    .from('products')
+    .from('product')
     .select()
     .textSearch('englishTitle', `${query}:*`);
 

@@ -19,21 +19,21 @@ function CreateBrandForm({ onCloseModal, editBrand = {} }) {
 
   function onSubmit(data) {
     const image =
-      typeof data.brandLogo === 'string'
-        ? data.brandLogo
-        : data?.brandLogo?.[0];
+      typeof data.platform_logo === 'string'
+        ? data.platform_logo
+        : data?.platform_logo?.[0];
     const formatData = {
-      slugName: data.englishName.toLowerCase().replaceAll(' ', '-'),
+      slug_name: data.english_name.toLowerCase().replaceAll(' ', '-'),
       ...data,
     };
 
     if (isEditSession) {
       mutateEditBrand({
-        newBrandData: { ...formatData, brandLogo: image },
+        newBrandData: { ...formatData, platform_logo: image },
         id: brandID,
       });
     } else {
-      mutateCreateBrand({ ...formatData, brandLogo: image });
+      mutateCreateBrand({ ...formatData, platform_logo: image });
     }
     reset();
     onCloseModal?.();
@@ -41,21 +41,21 @@ function CreateBrandForm({ onCloseModal, editBrand = {} }) {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} type='modal'>
-      <FormRow label='Brand English name' error={errors?.englishName?.message}>
+      <FormRow label='Brand English name' error={errors?.english_name?.message}>
         <Input
           type='text'
           id='englishName'
-          {...register('englishName', {
+          {...register('english_name', {
             required: 'This feild is required',
           })}
         />
       </FormRow>
 
-      <FormRow label='Brand Persian name' error={errors?.persianName?.message}>
+      <FormRow label='Brand Persian name' error={errors?.persian_name?.message}>
         <Input
           type='text'
           id='persianName'
-          {...register('persianName', {
+          {...register('persian_name', {
             required: 'This feild is required',
           })}
         />
@@ -73,12 +73,12 @@ function CreateBrandForm({ onCloseModal, editBrand = {} }) {
 
       <FormRow
         label='Brand description (Perisan)'
-        error={errors?.brandLogo?.message}
+        error={errors?.platform_logo?.message}
       >
         <FileInput
           id='brandLogo'
           accept='image/*'
-          {...register('brandLogo', {
+          {...register('platform_logo', {
             required: isEditSession ? false : 'This feild is required',
           })}
         />

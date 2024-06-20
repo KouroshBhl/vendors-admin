@@ -1,4 +1,4 @@
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getProductDetails } from '../../services/apiProducts';
 import Spinner from '../../ui/Spinner';
 import CreateProductForm from '../products/CreateProductForm';
@@ -27,7 +27,7 @@ function EditProduct() {
     <StyledHeader>
       <Heading as='h2'>
         You are editing:
-        <span className='text-3xl'>{data.at(0).englishTitle}</span>
+        <span className='text-3xl'>{data.at(0).english_title}</span>
       </Heading>
       <CreateProductForm editProduct={data.at(0)} />
     </StyledHeader>

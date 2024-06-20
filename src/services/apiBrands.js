@@ -1,7 +1,7 @@
 import supabase, { supabaseUrl } from './supabase';
 
 export async function getBrands() {
-  const { data, error } = await supabase.from('brands').select('*');
+  const { data, error } = await supabase.from('product_platform').select('*');
 
   if (error) {
     console.error(error);
@@ -12,41 +12,47 @@ export async function getBrands() {
 }
 
 export async function deleteBrand(id) {
-  const { error } = await supabase.from('brands').delete().eq('id', id);
+  const { error } = await supabase
+    .from('product_platform')
+    .delete()
+    .eq('id', id);
 
   if (error) throw new Error('Could not delete brand');
 }
 
 export async function createEditBrand(data, id) {
-  const hasImage = data.brandLogo?.startsWith?.(supabaseUrl);
-  const imageName = `${Math.random()}-${data.brandLogo.name}`.replaceAll(
+  console.log(data, id);
+  const hasImage = data.platform_logo?.startsWith?.(supabaseUrl);
+  const imageName = `${Math.random()}-${data.platform_logo.name}`.replaceAll(
     '/',
     ''
   );
   const imagePath = hasImage
-    ? data.brandLogo
-    : `${supabaseUrl}/storage/v1/object/public/brand-images/${imageName}`;
+    ? data.platform_logo
+    : `${supabaseUrl}/storage/v1/object/public/platform-images/${imageName}`;
 
-  let query = supabase.from('brands');
+  let query = supabase.from('product_platform');
 
   //! Create new brand
-  if (!id) query = query.insert([{ ...data, brandLogo: imagePath }]).select();
+  if (!id)
+    query = query.insert([{ ...data, platform_logo: imagePath }]).select();
 
   //! Edit brand
   if (id)
     query = query
-      .update({ ...data, brandLogo: imagePath })
+      .update({ ...data, platform_logo: imagePath })
       .eq('id', id)
       .select();
 
   const { data: supaData, error } = await query.select().single();
+  console.log(error);
 
   if (hasImage) return supaData;
 
   //! Upload brand logo
   const { error: uploadError } = await supabase.storage
-    .from('brand-images')
-    .upload(imageName, data.brandLogo);
+    .from('platform-images')
+    .upload(imageName, data.platform_logo);
 
   if (uploadError) throw new Error('Could not upload the image!');
 

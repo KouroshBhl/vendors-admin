@@ -4,14 +4,14 @@ import { Option, Select } from '../../ui/Selection';
 import SpinnerMini from '../../ui/SpinnerMini';
 
 function SelectBrandForm({ register }) {
-  const { isLoading, data } = useFetchData('brands', getBrands);
+  const { isLoading, data } = useFetchData('product_platform', getBrands);
 
   if (isLoading) return <SpinnerMini />;
 
   return (
     <Select
       defaultValue={'DEFAULT'}
-      {...register('platform', {
+      {...register('platform_id', {
         required: 'This feild is required',
         valueAsNumber: true,
       })}
@@ -21,7 +21,7 @@ function SelectBrandForm({ register }) {
       </Option>
       {data.map((rootCat) => (
         <Option key={rootCat.id} value={rootCat.id}>
-          {rootCat.englishName}
+          {rootCat.english_name}
         </Option>
       ))}
     </Select>

@@ -30,12 +30,12 @@ function CreateCategoryForm({ onCloseModal, data = {} }) {
     <Form type='modal' onSubmit={handleSubmit(onSubmit)}>
       <FormRow
         label='Category English name'
-        error={errors?.englishName?.message}
+        error={errors?.english_name?.message}
       >
         <Input
           type='text'
           id='englishName'
-          {...register('englishName', {
+          {...register('english_name', {
             required: 'This feild is required',
           })}
         />
@@ -43,12 +43,12 @@ function CreateCategoryForm({ onCloseModal, data = {} }) {
 
       <FormRow
         label='Category Persian name'
-        error={errors?.englishName?.message}
+        error={errors?.persian_name?.message}
       >
         <Input
           type='text'
           id='persianName'
-          {...register('persianName', {
+          {...register('persian_name', {
             required: 'This feild is required',
           })}
         />

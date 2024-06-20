@@ -9,7 +9,6 @@ import Input from '../../ui/Input';
 import SelectBrandForm from './SelectBrandForm';
 import SelectProductType from './SelectProductType';
 import { useEffect, useState } from 'react';
-import ProductOptional from './ProductOptional';
 import FileInput from '../../ui/FileInput';
 import SpinnerMini from '../../ui/SpinnerMini';
 import { styled } from 'styled-components';
@@ -23,8 +22,9 @@ import ImageUploader from './ImageUploader';
 function CreateProductForm({ editProduct = {} }) {
   let searchParams = useParams();
   const actionType = searchParams?.action;
+  console.log(editProduct);
 
-  const { uniqueId: productId } = editProduct;
+  const { id: productId } = editProduct;
   const isEditSession = Boolean(productId);
   const { control, handleSubmit, register, formState, unregister, getValues } =
     useForm({
@@ -96,23 +96,31 @@ function CreateProductForm({ editProduct = {} }) {
     >
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FormRow
-          error={errors?.persianTitle?.message}
+          error={errors?.persian_title?.message}
           label='Product Persian Title *'
         >
           <Input
             dir='rtl'
-            {...register('persianTitle', {
+            {...register('persian_title', {
               required: 'This feild is required',
             })}
           />
         </FormRow>
 
         <FormRow
-          error={errors?.englishTitle?.message}
+          error={errors?.english_title?.message}
           label='Product English Title *'
         >
           <Input
-            {...register('englishTitle', {
+            {...register('english_title', {
+              required: 'This feild is required',
+            })}
+          />
+        </FormRow>
+
+        <FormRow error={errors?.slug?.message} label='Product slug (ENG) *'>
+          <Input
+            {...register('slug', {
               required: 'This feild is required',
             })}
           />
@@ -133,25 +141,19 @@ function CreateProductForm({ editProduct = {} }) {
           <SelectBrandForm register={register} />
         </FormRow>
 
-        <Label htmlFor='directYes' className='font-medium mb-2'>
-          Info need from buyer
-        </Label>
-
-        <ProductOptional />
-
         <FormRow label='Product Thumbnail *' error={errors?.thumbnail?.message}>
           <FileInput {...register('thumbnail')} />
         </FormRow>
 
-        <FormRow label='Product Note' error={errors?.beforeBuy?.message}>
-          <Textarea {...register('productNote')} dir='rtl' />
+        <FormRow label='Product Note' error={errors?.product_note?.message}>
+          <Textarea {...register('product_note')} dir='rtl' />
         </FormRow>
 
         <FormRow label='Product purchase link'>
           <Input
             placeholder='Https://example.com'
             type='text'
-            {...register('purchaseLink')}
+            {...register('purchase_link')}
           />
         </FormRow>
 

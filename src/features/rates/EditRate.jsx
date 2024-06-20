@@ -1,17 +1,14 @@
 import { useForm } from 'react-hook-form';
 import { useEditRates } from './useEditRates';
 import Button from '../../ui/Button';
-import Form from '../../ui/Form';
-import FormRow from '../../ui/FormRow';
+
 import Input from '../../ui/Input';
 
 function EditRate({ rateId, setIdNotDisabled }) {
-  console.log(rateId);
   const { isEditingProduct, mutateEditRate } = useEditRates();
   const { register, handleSubmit } = useForm();
 
   function onSubmit(data) {
-    console.log(data);
     mutateEditRate({ data: data.price, id: rateId });
     setIdNotDisabled(null);
   }

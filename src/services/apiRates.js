@@ -1,7 +1,7 @@
 import supabase, { supabaseUrl } from './supabase';
 
 export async function getRates() {
-  const { data, error } = await supabase.from('currencies').select('*');
+  const { data, error } = await supabase.from('product_currency').select('*');
 
   if (error) {
     console.error(error);
@@ -12,10 +12,8 @@ export async function getRates() {
 }
 
 export async function editRates(data, id) {
-  console.log(data, id);
-
   const { data: results, error } = await supabase
-    .from('currencies')
+    .from('product_currency')
     .update({ price: data })
     .eq('id', id)
     .select();

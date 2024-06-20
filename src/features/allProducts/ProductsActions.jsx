@@ -1,5 +1,4 @@
 import { HiOutlineTrash, HiOutlinePencilSquare } from 'react-icons/hi2';
-import { IoDuplicateOutline } from 'react-icons/io5';
 
 import { StyledActions, Button } from '../../ui/Actions';
 import { deleteProduct } from '../../services/apiProducts';
@@ -11,7 +10,6 @@ import ConfirmDelete from '../../ui/ConfirmDelete';
 import { Link } from 'react-router-dom';
 
 function ProductsActions({ id, productType }) {
-  console.log(id, productType);
   const queryClient = useQueryClient();
 
   const { isLoading, mutate } = useDeleteProduct(
@@ -47,10 +45,6 @@ function ProductsActions({ id, productType }) {
       <Link to={`/products/${id}/edit`}>
         <HiOutlinePencilSquare />
       </Link>
-
-      {/* <Link to={`/products/${uniqueId}/duplicate`}>
-        <IoDuplicateOutline />
-      </Link> */}
     </StyledActions>
   );
 }

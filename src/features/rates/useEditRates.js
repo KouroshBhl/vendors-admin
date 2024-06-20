@@ -7,7 +7,7 @@ export function useEditRates() {
   const { status: isEditingProduct, mutate: mutateEditRate } = useMutation({
     mutationFn: ({ data, id }) => editRates(data, id),
     onSuccess: () => {
-      clientQuery.invalidateQueries(['currencies']);
+      clientQuery.invalidateQueries(['product_currency']);
       toast.success('Currency edited successfully');
     },
     onError: () => {
