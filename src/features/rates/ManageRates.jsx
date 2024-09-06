@@ -1,3 +1,16 @@
+import {
+  Table,
+  TableHeader,
+  TableColumn,
+  TableBody,
+  TableRow,
+  TableCell,
+  User,
+  Chip,
+  Tooltip,
+  getKeyValue,
+} from '@nextui-org/react';
+
 import { useFetchData } from '../../hooks/useFetchData';
 import { getRates } from '../../services/apiRates';
 
@@ -19,33 +32,39 @@ function ManageRates() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className='flex flex-col p-12 bg-white mt-4'>
-      <div className='flex flex-col justify-center items-center gap-10'>
+    <Table>
+      <TableHeader className='text-md'>
+        <TableColumn>Currency</TableColumn>
+        <TableColumn>Price</TableColumn>
+        <TableColumn>Currency</TableColumn>
+      </TableHeader>
+      <TableBody>
         {data.map((rate, i) => {
           return (
-            <div
-              key={rate.id}
-              className='grid grid-cols-3 justify-center items-center w-1/2'
-            >
-              <span className='text-md font-semibold'>
+            <TableRow key={rate.id}>
+              <TableCell className='text-md font-semibold'>
                 {rate.currency_english_name}
-              </span>
-              <span className='text-2xl font-bold'>{commafy(rate.price)}</span>
-              {idNotDisabled !== rate.id ? (
-                <Button onClick={() => handleRate(rate.id)} className=''>
-                  Update rate
-                </Button>
-              ) : (
-                <EditRate
-                  rateId={idNotDisabled}
-                  setIdNotDisabled={setIdNotDisabled}
-                />
-              )}
-            </div>
+              </TableCell>
+              <TableCell className='text-2xl font-bold'>
+                {commafy(rate.price)}
+              </TableCell>
+              <TableCell>
+                {idNotDisabled !== rate.id ? (
+                  <Button onClick={() => handleRate(rate.id)} className=''>
+                    Update rate
+                  </Button>
+                ) : (
+                  <EditRate
+                    rateId={idNotDisabled}
+                    setIdNotDisabled={setIdNotDisabled}
+                  />
+                )}
+              </TableCell>
+            </TableRow>
           );
         })}
-      </div>
-    </div>
+      </TableBody>
+    </Table>
   );
 }
 

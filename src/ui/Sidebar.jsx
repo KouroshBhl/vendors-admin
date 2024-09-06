@@ -1,25 +1,13 @@
-import { styled } from 'styled-components';
 import Logo from './Logo';
 import MainNav from './MainNav';
 
 function Sidebar() {
   return (
-    <StyledSidebar>
+    <aside className='flex gap-14 grid-rows-1 flex-col px-4 py-10 border border-r-1 border-content1 bg-background'>
       <Logo />
       <MainNav />
-    </StyledSidebar>
+    </aside>
   );
 }
-
-const StyledSidebar = styled.aside`
-  background-color: var(--color-grey-0);
-  padding: 3.2rem 2.4rem;
-  border-right: 1px solid var(--color-grey-100);
-
-  grid-row: 1 / -1;
-  display: flex;
-  flex-direction: column;
-  gap: 3.2rem;
-`;
 
 export default Sidebar;

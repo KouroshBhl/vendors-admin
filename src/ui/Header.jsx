@@ -1,5 +1,5 @@
 function Header() {
-  return <div>Header</div>;
+  return <div className='bg-content1'>Navigation</div>;
 }
 
 export default Header;

@@ -1,24 +1,11 @@
-import { styled } from 'styled-components';
 import LogoImage from '../../public/logo.jpg';
 
 function Logo() {
   return (
-    <StyledLogo>
-      <StyledImage src={LogoImage} alt='vendors' />
-    </StyledLogo>
+    <div className='flex justify-center items-center'>
+      <img src={LogoImage} alt='vendors' className='w-24 h-24' />
+    </div>
   );
 }
-
-const StyledLogo = styled.div`
-  text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const StyledImage = styled.img`
-  height: 9.6rem;
-  width: auto;
-`;
 
 export default Logo;

@@ -13,7 +13,6 @@ function AllProducts() {
           </div>
         </div>
       </div>
-      <ProductsTable />
     </>
   );
 }
