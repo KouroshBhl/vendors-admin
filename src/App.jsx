@@ -19,6 +19,8 @@ import EditProduct from './features/allProducts/EditProduct';
 import UiHomePage from './pages/UiHomePage';
 import Rates from './pages/Rates';
 import Brands from './pages/Brands';
+import Login from './pages/Login';
+import ProtectedRoute from './ui/ProtectedRoute';
 
 const queryClient = new QueryClient();
 
@@ -31,7 +33,14 @@ function App() {
         <GlobalStyle />
         <BrowserRouter>
           <Routes>
-            <Route element={<AppLayout />}>
+            <Route path='login' element={<Login />} />
+            <Route
+              element={
+                <ProtectedRoute>
+                  <AppLayout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate replace to='dashboard' />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='admins' element={<Admins />} />

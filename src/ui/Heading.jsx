@@ -1,28 +1,12 @@
-import styled, { css } from 'styled-components';
+import { Divider } from '@nextui-org/react';
 
-const Heading = styled.h1`
-  ${(props) =>
-    props.as === 'h1' &&
-    css`
-      font-size: 3rem;
-      font-weight: 600;
-    `}
-
-  ${(props) =>
-    props.as === 'h2' &&
-    css`
-      font-size: 2rem;
-      font-weight: 600;
-    `}
-    
-    ${(props) =>
-    props.as === 'h3' &&
-    css`
-      font-size: 2rem;
-      font-weight: 500;
-    `}
-    
-  line-height: 1.4;
-`;
+function Heading({ children }) {
+  return (
+    <div className='flex gap-8 items-center overflow-hidden mb-6'>
+      <h1 className='text-2xl font-medium text-nowrap'>{children}</h1>
+      <Divider />
+    </div>
+  );
+}
 
 export default Heading;

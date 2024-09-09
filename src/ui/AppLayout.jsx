@@ -8,7 +8,7 @@ function AppLayout() {
       <Header />
       <div className='grid grid-cols-[20rem,1fr] min-h-screen'>
         <Sidebar />
-        <main className='px-6 py-10 overflow-scroll bg-background'>
+        <main className='px-6 py-10 overflow-scroll bg-background text-foreground text-medium '>
           <Outlet />
         </main>
       </div>
