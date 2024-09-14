@@ -1,7 +1,11 @@
+import AllAdmins from '../features/admins/AllAdmins';
+import Heading from '../ui/Heading';
+
 function Admins() {
   return (
     <div>
-      <p className='text-white text-xl'>admins</p>
+      <Heading as='h1'>Manage Admins</Heading>
+      <AllAdmins />
     </div>
   );
 }

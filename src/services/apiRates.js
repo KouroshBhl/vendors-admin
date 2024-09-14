@@ -1,9 +1,9 @@
-import supabase, { supabaseUrl } from './supabase';
+import supabase from './supabase';
 
 export async function getRates() {
   const { data, error } = await supabase
     .from('product_currency')
-    .select('*,updated_by(first_name,last_name)')
+    .select('*,updated_by(first_name)')
     .order('created_at', { ascending: true });
 
   if (error) {

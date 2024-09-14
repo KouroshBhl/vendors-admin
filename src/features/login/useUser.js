@@ -9,17 +9,3 @@ export function useUser() {
 
   return { isPending, user, isAuthenticated: user?.role === 'authenticated' };
 }
-export function useProfile() {
-  const { isPending, data: role } = useQuery({
-    queryKey: ['profile'],
-    queryFn: getUserRole,
-  });
-
-  return {
-    isPending,
-    id: role?.id,
-    role: role?.role_id.role,
-    firstName: role?.first_name,
-    lastName: role?.last_name,
-  };
-}

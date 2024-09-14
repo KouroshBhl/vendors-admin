@@ -1,4 +1,4 @@
-import supabase from './supabase';
+import supabase, { supabaseAdmin } from './supabase';
 
 export async function loginApi({ email, password }) {
   let { data, error } = await supabase.auth.signInWithPassword({
@@ -49,4 +49,15 @@ export async function getUserRole() {
   }
 
   return role;
+}
+
+export async function getAllAdmins() {
+  const {
+    data: { users },
+    error,
+  } = await supabaseAdmin.auth.admin.listUsers();
+
+  if (error) throw new Error(error.message);
+
+  return users;
 }

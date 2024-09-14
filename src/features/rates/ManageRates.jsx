@@ -28,7 +28,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useForm } from 'react-hook-form';
 import { formatDate } from '../../utils/formatDate';
 import { useEditRates } from './useEditRates';
-import { useProfile } from '../login/useUser';
+import { useUser } from '../login/useUser';
 
 function ManageRates() {
   const { register, handleSubmit, formState: error } = useForm();
@@ -36,13 +36,13 @@ function ManageRates() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [selectedRate, setSelectedRate] = useState({});
   const { isEditingProduct, mutateEditRate } = useEditRates();
-  const { id: userId } = useProfile();
+  const { user } = useUser();
 
   function onSubmit(data) {
     const id = selectedRate.id;
     const currency = Number(data.currency);
     mutateEditRate(
-      { newPrirce: currency, id, updatedBy: userId },
+      { newPrirce: currency, id, updatedBy: '12313' },
       { onSuccess: onOpenChange }
     );
   }
@@ -81,7 +81,7 @@ function ManageRates() {
                       : '-------'}
                   </span>
                 </TableCell>
-                <TableCell>{rate.updated_by.first_name}</TableCell>
+                <TableCell> {rate.updated_by.first_name}</TableCell>
                 <TableCell>
                   <div className='flex gap-2'>
                     <Icon

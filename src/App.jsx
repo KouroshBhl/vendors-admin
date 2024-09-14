@@ -21,6 +21,7 @@ import Rates from './pages/Rates';
 import Brands from './pages/Brands';
 import Login from './pages/Login';
 import ProtectedRoute from './ui/ProtectedRoute';
+import EditAdmin from './pages/EditAdmin';
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ function App() {
               <Route index element={<Navigate replace to='dashboard' />} />
               <Route path='dashboard' element={<Dashboard />} />
               <Route path='admins' element={<Admins />} />
+              <Route path='admins/:adminId' element={<EditAdmin />} />
               <Route path='orders' element={<Orders />} />
               <Route path='rates' element={<Rates />} />
               <Route path='products' element={<AllProducts />} />
