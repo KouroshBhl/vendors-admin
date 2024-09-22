@@ -1,4 +1,4 @@
-import supabase, { supabaseAdmin } from './supabase';
+import supabase, { supabaseUrl } from './supabase';
 
 export async function loginApi({ email, password }) {
   let { data, error } = await supabase.auth.signInWithPassword({
@@ -19,6 +19,8 @@ export async function getCurrentUser() {
   if (!session?.session) return null;
 
   const { data, error } = await supabase.auth.getUser();
+
+  console.log(data);
 
   if (error) {
     throw new Error(error.message);
@@ -51,13 +53,30 @@ export async function getUserRole() {
   return role;
 }
 
-export async function getAllAdmins() {
-  const {
-    data: { users },
-    error,
-  } = await supabaseAdmin.auth.admin.listUsers();
+export async function updateCurrentUser(data) {
+  const { data: session } = await supabase.auth.getSession();
+
+  const userId = session.session.user.id;
+
+  const profilePic = data?.profilePicture[0];
+  const profileUrl = `${supabaseUrl}/storage/v1/object/public/${userId}/profilePicture`;
+
+  const { error: profileError } = await supabase.storage
+    .from(`admins/${userId}`)
+    .upload('profilePicture', profilePic, {
+      upsert: true,
+    });
+
+  if (profileError) throw new Error(profileError.message);
+
+  const { data: updatedUser, error } = await supabase.auth.updateUser({
+    data: {
+      ...data,
+      profilePicture: profileUrl,
+    },
+  });
 
   if (error) throw new Error(error.message);
 
-  return users;
+  return updatedUser;
 }

@@ -22,7 +22,6 @@ import ImageUploader from './ImageUploader';
 function CreateProductForm({ editProduct = {} }) {
   let searchParams = useParams();
   const actionType = searchParams?.action;
-  console.log(editProduct);
 
   const { id: productId } = editProduct;
   const isEditSession = Boolean(productId);

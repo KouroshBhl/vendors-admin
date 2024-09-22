@@ -4,7 +4,6 @@ export async function getBrands() {
   const { data, error } = await supabase.from('product_platform').select('*');
 
   if (error) {
-    console.error(error);
     throw new Error('Brands could not be loaded');
   }
 

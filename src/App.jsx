@@ -7,7 +7,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import AppLayout from './ui/AppLayout';
 import Dashboard from './pages/Dashboard';
 import AllProducts from './pages/AllProducts';
-import Admins from './pages/Admins';
+import Profile from './pages/Profile';
 import Orders from './pages/Orders';
 import UiSettings from './pages/UiSettings';
 import Users from './pages/Users';
@@ -21,7 +21,6 @@ import Rates from './pages/Rates';
 import Brands from './pages/Brands';
 import Login from './pages/Login';
 import ProtectedRoute from './ui/ProtectedRoute';
-import EditAdmin from './pages/EditAdmin';
 
 const queryClient = new QueryClient();
 
@@ -44,8 +43,7 @@ function App() {
             >
               <Route index element={<Navigate replace to='dashboard' />} />
               <Route path='dashboard' element={<Dashboard />} />
-              <Route path='admins' element={<Admins />} />
-              <Route path='admins/:adminId' element={<EditAdmin />} />
+              <Route path='profile' element={<Profile />} />
               <Route path='orders' element={<Orders />} />
               <Route path='rates' element={<Rates />} />
               <Route path='products' element={<AllProducts />} />
