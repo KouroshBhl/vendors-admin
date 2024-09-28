@@ -78,5 +78,12 @@ export async function updateCurrentUser(data) {
 
   if (error) throw new Error(error.message);
 
+  const { error: updateError } = await supabase
+    .from('admin_profiles')
+    .update({ first_name: data.firstName, last_name: data.lastName })
+    .eq('id', userId);
+
+  if (updateError) throw new Error(updateError.message);
+
   return updatedUser;
 }

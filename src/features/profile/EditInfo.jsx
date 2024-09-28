@@ -2,6 +2,7 @@ import { Button, Input, Spinner } from '@nextui-org/react';
 import { useUser } from '../login/useUser';
 import { useForm } from 'react-hook-form';
 import { useProfile } from './useProfile';
+import UpdateAdminPassword from './UpdateAdminPassword';
 
 function EditInfo() {
   const { isPending, user } = useUser();
@@ -20,7 +21,7 @@ function EditInfo() {
   }
 
   return (
-    <div>
+    <div className='flex flex-col gap-8'>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className='grid grid-cols-2 gap-4 items-center'
@@ -77,15 +78,19 @@ function EditInfo() {
           isInvalid={errors?.profilePicture}
           type='file'
           label='Profile picture'
-          {...register('profilePicture', {
-            required: 'Profile picture is required',
-          })}
+          {...register('profilePicture')}
         />
 
-        <Button type='submit' className=' text-lg' color='primary'>
-          Save changes
+        <Button
+          type='submit'
+          className=' text-lg'
+          color='primary'
+          isLoading={updating}
+        >
+          {updating ? 'Saving...' : 'Save changes'}
         </Button>
       </form>
+      <UpdateAdminPassword />
     </div>
   );
 }
