@@ -58,21 +58,20 @@ export async function updateCurrentUser(data) {
 
   const userId = session.session.user.id;
 
-  const profilePic = data?.profilePicture[0];
-  const profileUrl = `${supabaseUrl}/storage/v1/object/public/${userId}/profilePicture`;
+  const profilePic = data?.profilePicture?.[0];
+  const profilePicture = `${supabaseUrl}/storage/v1/object/public/${userId}/profilePicture`;
 
   const { error: profileError } = await supabase.storage
     .from(`admins/${userId}`)
     .upload('profilePicture', profilePic, {
       upsert: true,
     });
-
   if (profileError) throw new Error(profileError.message);
 
   const { data: updatedUser, error } = await supabase.auth.updateUser({
     data: {
       ...data,
-      profilePicture: profileUrl,
+      profilePicture,
     },
   });
 
@@ -80,10 +79,20 @@ export async function updateCurrentUser(data) {
 
   const { error: updateError } = await supabase
     .from('admin_profiles')
-    .update({ first_name: data.firstName, last_name: data.lastName })
+    .update({ first_name: data?.firstName, last_name: data?.lastName })
     .eq('id', userId);
 
-  if (updateError) throw new Error(updateError.message);
+  if (updateError) throw new Error(updateError?.message);
+
+  return updatedUser;
+}
+
+export async function updateUserPassword(data) {
+  const { data: updatedUser, error } = await supabase.auth.updateUser({
+    password: data.password,
+  });
+
+  if (error) throw new Error(error?.message);
 
   return updatedUser;
 }
