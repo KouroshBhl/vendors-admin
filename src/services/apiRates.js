@@ -13,12 +13,15 @@ export async function getRates() {
   return data;
 }
 
-export async function editRates({ newPrirce, id, updatedBy }) {
+export async function editRates({ newPrirce, id }) {
+  const { data: session, error: userErrro } = await supabase.auth.getUser();
+  console.log(session);
+
   const { data: results, error } = await supabase
     .from('product_currency')
     .update({
       price: newPrirce,
-      updated_by: updatedBy,
+      updated_by: session?.user.id,
       last_updated: new Date(),
     })
     .eq('id', id)
@@ -27,6 +30,8 @@ export async function editRates({ newPrirce, id, updatedBy }) {
   if (error) {
     throw new Error(error.message);
   }
+
+  console.log(error);
 
   return results;
 }

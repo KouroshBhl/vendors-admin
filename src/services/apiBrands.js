@@ -44,7 +44,6 @@ export async function createEditBrand(data, id) {
       .select();
 
   const { data: supaData, error } = await query.select().single();
-  console.log(error);
 
   if (hasImage) return supaData;
 

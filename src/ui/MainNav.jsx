@@ -79,8 +79,8 @@ function MainNav() {
           Users
         </NavMenu.NavMainLink>
 
-        <NavMenu.NavMainLink linkTo='admins' icon={<HiOutlineUserCircle />}>
-          Admins
+        <NavMenu.NavMainLink linkTo='profile' icon={<HiOutlineUserCircle />}>
+          Profile
         </NavMenu.NavMainLink>
 
         <NavMenu.NavMainLink

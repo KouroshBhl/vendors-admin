@@ -5,8 +5,7 @@ import { editRates } from '../../services/apiRates';
 export function useEditRates() {
   const clientQuery = useQueryClient();
   const { isPending: isEditingProduct, mutate: mutateEditRate } = useMutation({
-    mutationFn: ({ newPrirce, id, updatedBy }) =>
-      editRates({ newPrirce, id, updatedBy }),
+    mutationFn: ({ newPrirce, id }) => editRates({ newPrirce, id }),
     onSuccess: () => {
       clientQuery.invalidateQueries(['product_currency']);
       toast.success('Currency edited successfully');

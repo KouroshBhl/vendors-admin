@@ -41,10 +41,7 @@ function ManageRates() {
   function onSubmit(data) {
     const id = selectedRate.id;
     const currency = Number(data.currency);
-    mutateEditRate(
-      { newPrirce: currency, id, updatedBy: '12313' },
-      { onSuccess: onOpenChange }
-    );
+    mutateEditRate({ newPrirce: currency, id }, { onSuccess: onOpenChange });
   }
 
   if (isLoading) return <Spinner />;
