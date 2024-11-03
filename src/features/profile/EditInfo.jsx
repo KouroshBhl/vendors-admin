@@ -90,7 +90,7 @@ function EditInfo() {
           {updating ? 'Saving...' : 'Save changes'}
         </Button>
       </form>
-      {/* <UpdateAdminPassword /> */}
+      <UpdateAdminPassword />
     </div>
   );
 }

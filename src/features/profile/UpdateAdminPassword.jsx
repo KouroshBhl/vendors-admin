@@ -8,6 +8,7 @@ function UpdateAdminPassword() {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm();
 
   const { isPending, updatePassword } = usePassword();
@@ -24,7 +25,7 @@ function UpdateAdminPassword() {
         letter, one number, and one special character
       </Chip>
       <form
-        className='grid grid-cols-2 gap-4'
+        className='grid grid-cols-3 gap-4'
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
@@ -32,6 +33,7 @@ function UpdateAdminPassword() {
           errorMessage={errors?.password?.message}
           label='New Password'
           type='password'
+          autoComplete='new-password'
           {...register('password', {
             required: 'Password is required',
             // minLength: {
@@ -48,10 +50,16 @@ function UpdateAdminPassword() {
         />
 
         <Input
+          isInvalid={errors?.confirmPassword?.message}
+          errorMessage={errors?.confirmPassword?.message}
           label='Confirm Password'
           type='password'
+          autoComplete='new-password'
           {...register('confirmPassword', {
             required: 'Please confirm your password',
+            validate: (value) => {
+              if (watch('password') !== value) return 'Passwords do not match';
+            },
             // validate: (value) => value === password || 'Passwords do not match',
           })}
         />

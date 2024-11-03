@@ -9,7 +9,7 @@ function Login() {
   if (isAuthenticated) navigate('/dashboard');
 
   return (
-    <div>
+    <div className='flex w-screen items-start justify-center overflow-hidden bg-content1 p-2 sm:p-4 lg:p-8  h-full fixed'>
       <LoginForm />
     </div>
   );

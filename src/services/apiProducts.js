@@ -1,7 +1,6 @@
 import supabase, { supabaseUrl } from './supabase';
 
 export async function createProduct(data) {
-  console.log(data);
   const imageName = `thumbnail-${data.thumbnail.name}-${data.thumbnail.size}-${Math.random() * 1000}`;
   const imagePath = `${supabaseUrl}/storage/v1/object/public/products/${imageName}`;
 
@@ -9,8 +8,6 @@ export async function createProduct(data) {
     .from('product')
     .insert([{ ...data, thumbnail: imagePath }])
     .select();
-
-  console.log(createError);
 
   if (createError) throw new Error(createError?.message);
 
