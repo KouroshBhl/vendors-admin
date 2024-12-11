@@ -1,5 +1,5 @@
 import { Spinner } from '@nextui-org/react';
-import { useUser } from '../features/login/useUser';
+import { useUser } from '../hooks/useUser';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import supabase from '../services/supabase';

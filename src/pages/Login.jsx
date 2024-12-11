@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import LoginForm from '../features/login/LoginForm';
-import { useUser } from '../features/login/useUser';
+import { useUser } from '../hooks/useUser';
 
 function Login() {
   const { isAuthenticated } = useUser();

@@ -28,7 +28,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useForm } from 'react-hook-form';
 import { formatDate } from '../../utils/formatDate';
 import { useEditRates } from './useEditRates';
-import { useUser } from '../login/useUser';
+import { useUser } from '../../hooks/useUser';
 
 function ManageRates() {
   const { register, handleSubmit, formState: error } = useForm();

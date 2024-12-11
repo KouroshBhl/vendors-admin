@@ -57,7 +57,7 @@ export async function updateCurrentUser(data) {
   const userId = session.session.user.id;
 
   const profilePic = data?.profilePicture?.[0];
-  const profilePicture = `${supabaseUrl}/storage/v1/object/public/${userId}/profilePicture`;
+  const profilePicture = `${supabaseUrl}/storage/v1/object/public/admins/${userId}/profilePicture`;
 
   const { error: profileError } = await supabase.storage
     .from(`admins/${userId}`)

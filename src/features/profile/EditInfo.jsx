@@ -1,5 +1,5 @@
 import { Button, Input, Spinner } from '@nextui-org/react';
-import { useUser } from '../login/useUser';
+import { useUser } from '../../hooks/useUser';
 import { useForm } from 'react-hook-form';
 import { useProfile } from './useProfile';
 import UpdateAdminPassword from './UpdateAdminPassword';

@@ -1,4 +1,4 @@
-import { useUser } from '../features/login/useUser';
+import { useUser } from '../hooks/useUser';
 import EditInfo from '../features/profile/EditInfo';
 import Heading from '../ui/Heading';
 
